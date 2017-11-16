@@ -22,6 +22,8 @@ const state ={
   windowHeight:'',
   list_panel:false,
 
+  booklist:[]
+
 
 };
 

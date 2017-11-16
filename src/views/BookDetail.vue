@@ -24,12 +24,12 @@
 
       <div class="read-btn" v-if="!loading">
         <div>
-          <button @click="openBook">
+          <button >
             <router-link :to="{path:'/reader/'+ bookDetail.id}">开始阅读</router-link>
           </button>
         </div>
         <div>
-          <button @click="openBook">
+          <button>
             <router-link :to="{path:'/reader/'+ bookDetail.id}">开始阅读</router-link>
           </button>
         </div>
@@ -102,9 +102,6 @@
               this.likes = res.data.like.split('-')
           });
       },
-      openBook(){
-
-      },
       //图片加载失败是使用默认图片
       loadImage(e) {
         this.common.defaultImage(e)
@@ -113,7 +110,9 @@
     watch: {
       //监听路由，点击底部喜欢的书籍路由会改变，重新获取数据
       $route(to, from) {
-        this.getBookData(to.params.id)
+        if(to.params.id){
+          this.getBookData(to.params.id)
+        }
       }
     }
   }

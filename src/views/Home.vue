@@ -34,12 +34,14 @@
 
 
     </div>
+    <div v-if="!loading">
     <components-book-plate :booklist="booklist | free" title="限时免费"></components-book-plate>
     <components-plate :booklist="booklist | hot" title="热门小说"></components-plate>
     <components-book-list :datalist="booklist | xuanhuan" title="玄幻小说"></components-book-list>
     <components-plate :booklist="booklist | jingpin" title="精品汇聚"></components-plate>
     <components-book-list :datalist="booklist | dashen" title="大神作品展"></components-book-list>
-
+    </div>
+    <loading v-show="loading"></loading>
   </div>
 
 </template>
@@ -50,6 +52,7 @@
   import ComponentsPlate from  './../components/Plate.vue'
   import ComponentsBookList from './../components/BookList.vue'
   import ComponentsBookPlate from './../components/BookPlate.vue'
+  import loading from  './../components/Loading/Loading.vue'
   export default {
     data(){
       return{
@@ -75,6 +78,7 @@
             num: 5,
             word: '游戏'
           }],
+        loading: false
       };
     },
     created() {
@@ -84,7 +88,8 @@
       ComponentsUser,
       ComponentsPlate,
       ComponentsBookList,
-      ComponentsBookPlate
+      ComponentsBookPlate,
+      loading
     },
     computed: {
       Usershow(){
@@ -93,10 +98,13 @@
     },
     methods:{
       getData(){
+        this.loading = true
         axios.get('http://39.108.14.248:3333/booklist')
           .then((res)=>{
+            this.loading = false;
           if (res.data.length>0){
             this.booklist = res.data;
+            this.$store.state.booklist = this.booklist;
           }
         })
       },
